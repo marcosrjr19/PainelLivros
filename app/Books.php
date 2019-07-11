@@ -37,7 +37,7 @@ class Books extends Model
      */
     public function publishingcompany()
     {
-        return $this->belongsTo('App\Publishingcompany');
+        return $this->belongsTo('App\Publishingcompany', 'publishing_company_id');
     }
 
     /**

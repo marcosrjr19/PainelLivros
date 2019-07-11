@@ -8,6 +8,11 @@ use App\Books;
 
 class BooksController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +22,7 @@ class BooksController extends Controller
     {
         Auth::user()->authorizeRoles(['manager']);
 
-        return view('admin.books.home')->with('books' , Books::all());
+        return view('admin.books.home')->with('books' , Books::with('authors','publishingcompany')->get());
     }
 
     /**
