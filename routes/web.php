@@ -51,12 +51,20 @@ Auth::routes();
 
 Auth::routes();
 
-Route::prefix('admin')->group(function () {
-
+Route::group(['prefix' => 'admin',  'middleware' => ['role.verify' , 'auth']], function()
+{
     Route::get('/dashboard', 'AdminController@index');
 
+
     route::get('/books', 'BooksController@index');
+    route::get('/books/new', 'BooksController@create');
+    route::post('/books/new', 'BooksController@store');
+});
+
+/*Route::prefix('admin')->group(function () {
+
+
 
 });
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home');*/
