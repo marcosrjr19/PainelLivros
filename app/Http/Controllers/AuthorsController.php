@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Authors;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\AuthorsStoreRequest;
 
 class AuthorsController extends Controller
 {
@@ -14,7 +15,7 @@ class AuthorsController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.authors.home')->with('authors' , Authors::all());
     }
 
     /**
@@ -24,7 +25,7 @@ class AuthorsController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.authors.create');
     }
 
     /**
@@ -33,8 +34,16 @@ class AuthorsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AuthorsStoreRequest $request)
     {
+        $request->validated();
+
+        Authors::create(['author_name' => $request->input('author_name')]);
+
+        return
+        redirect()
+       ->back()
+       ->with('message', 'Autor salvo com sucesso !'); 
         //
     }
 
@@ -57,7 +66,9 @@ class AuthorsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $author = Authors::findOrFail($id);
+
+        return view('admin.authors.edit')->with('author' , $author);
     }
 
     /**
@@ -67,9 +78,18 @@ class AuthorsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AuthorsStoreRequest $request, $id)
     {
-        //
+        $request->validated();
+
+        $author = Authors::findOrFail($id);
+        $author->author_name = $request->input('author_name');
+        $author->save();
+
+        return
+        redirect()
+       ->back()
+       ->with('message', 'Autor atualizado com sucesso !'); 
     }
 
     /**

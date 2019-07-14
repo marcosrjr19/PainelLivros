@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Publishingcompany;
+use App\Http\Requests\PublishingCompanyRequest;
 
 class PublishingCompanyController extends Controller
 {
@@ -13,7 +15,7 @@ class PublishingCompanyController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.publishingcompany.home')->with('publishingCompany', Publishingcompany::all());
     }
 
     /**
@@ -23,7 +25,7 @@ class PublishingCompanyController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.publishingcompany.create');
     }
 
     /**
@@ -32,8 +34,16 @@ class PublishingCompanyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PublishingCompanyRequest $request)
     {
+        $validated = $request->validated();
+
+        Publishingcompany::create(['name' => $request->input('publishing_name')]);
+
+        return
+        redirect()
+       ->back()
+       ->with('message', 'Editora salva com sucesso !'); 
         //
     }
 
@@ -56,7 +66,9 @@ class PublishingCompanyController extends Controller
      */
     public function edit($id)
     {
-        //
+        $publishingcompany = Publishingcompany::findOrFail($id);
+
+        return view('admin.publishingcompany.edit')->with('publishingcompany' , $publishingcompany);
     }
 
     /**
@@ -66,9 +78,18 @@ class PublishingCompanyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PublishingCompanyRequest $request,$id)
     {
-        //
+        $validated = $request->validated();
+
+        $publishingcompany = Publishingcompany::findOrFail($id);
+        $publishingcompany->name = $request->input('publishing_name');
+        $publishingcompany->save();
+
+        return
+        redirect()
+       ->back()
+       ->with('message', 'Editora atualizado com sucesso !'); 
     }
 
     /**

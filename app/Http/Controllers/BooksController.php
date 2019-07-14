@@ -62,10 +62,8 @@ class BooksController extends Controller
         }
        $book->save(); 
 
-       foreach($request->input('authors') as $author){      
-         
-            $book->authors()->attach(Authors::find($author)); /* Relaciona Livro/Autor;*/
-       }
+       $book->authors()->sync($request->input('authors'));
+    
 
       
        return

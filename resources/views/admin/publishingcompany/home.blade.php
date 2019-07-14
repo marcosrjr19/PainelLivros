@@ -14,20 +14,17 @@
         <a href="{{url('/admin/dashboard')}}"> <button type="button" class="btn-block btn btn-info">Voltar</button></a>
         </div>
         <div class="col-xs-6 col-lg-2">
-        <a href="{{url('/admin/books/new')}}"><button type="button" class="btn-block btn btn-success">Adicionar Novo</button></a>
+        <a href="{{route('publishingcompany.create')}}"><button type="button" class="btn-block btn btn-success">Adicionar Novo</button></a>
         </div>
       
           
     </div>
    
 
-    <table id="books-table" class="table table-striped table-responsive-md btn-table">
+    <table id="authors-table" class="table table-striped table-responsive-md btn-table">
         <thead>
         <tr>
             <th>Nome</th>
-            <th>Quantidade de Paginas</th>
-            <th>Editora</th>
-            <th>Autor(es)</th>
             <th>Modificar</th>
             <th>Remover</th>
          
@@ -35,24 +32,12 @@
         </thead>
         <tbody>
           
-        @foreach ($books as $book)
+        @foreach ($publishingCompany as $company)
         <tr>
-        <td>{{$book->name}}</td>
-        <td>{{$book->page_count}}</td>
-        <td>{{$book->publishingCompany->name}}</td>   
+        <td>{{$company->name}}</td>
+        <td><a href="{{route('publishingcompany.edit', ['id' => $company->id])}}"><button class="btn btn-warning"><i class="fa fa-fw fa-edit"></i></button></a></td>
         <td>
-            @foreach($book->authors as $author)
-
-                @if(!empty($author))
-                {{$author->author_name}},
-                @else
-                    No Results
-                @endif
-            @endforeach
-        </td>
-        <td><a href="{{url('/admin/books/edit/'.$book->id)}}"><button class="btn btn-warning"><i class="fa fa-fw fa-edit"></i></button></a></td>
-        <td>
-            <form method="POST" action="{{Request::url().'/'.$book->id}}" onsubmit="return confirm('Deseja realmente remover este livro?');">
+            <form method="POST" action="{{route('publishingcompany.destroy', ['id' => $company->id])}}" onsubmit="return confirm('Deseja realmente remover este autor?');">
                 <input name="_method" type="hidden" value="DELETE">
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <button type="submit" class="btn btn-danger"><i class="fa fa-fw fa-trash"></i></button>
@@ -67,7 +52,7 @@
     </div>
     <script>
         window.onload = function(){
-            $("#books-table").dataTable({
+            $("#authors-table").dataTable({
                 "lengthMenu" : false,
                 "lengthChange" : false,
                 "language": {

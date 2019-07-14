@@ -128,7 +128,7 @@ return [
         'EDITORAS',
         [
             'text' => 'Módulo de Editoras',
-            'url'  => 'admin/publishingCompany',
+            'url'  => 'admin/publishingcompany',
             
         ],
     ],
