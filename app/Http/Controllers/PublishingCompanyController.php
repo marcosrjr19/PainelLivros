@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Publishingcompany;
 use App\Http\Requests\PublishingCompanyRequest;
+use App\Books;
 
 class PublishingCompanyController extends Controller
 {
@@ -89,7 +90,7 @@ class PublishingCompanyController extends Controller
         return
         redirect()
        ->back()
-       ->with('message', 'Editora atualizado com sucesso !'); 
+       ->with('message', 'Editora atualizada com sucesso !'); 
     }
 
     /**
@@ -100,6 +101,20 @@ class PublishingCompanyController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $publishingcompany = Publishingcompany::firstOrFail($id);
+
+        $books = Books::with('authors','publishingcompany')->where('publishing_company_id', '=', $id )->get();
+
+        foreach($books as $book){
+
+            if(!$book->authors->isEmpty()){
+                $book->authors()->sync([]);
+                $book->delete();
+            }
+
+        }
+        $publishingcompany->delete();
+
+        return redirect()->back()->with('message', 'Editora Excluida com sucesso!');
     }
 }

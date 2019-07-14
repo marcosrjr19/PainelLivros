@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Authors;
+use App\Books;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\AuthorsStoreRequest;
@@ -100,6 +101,23 @@ class AuthorsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $author = Authors::findOrFail($id);
+        $books = $author->books()->get();
+        
+       foreach ($books as $book) {
+           $book_authors = $book->authors()->get();
+
+           if($book_authors->count() === 1 && $book_authors->first()->id == $id){
+
+               $book->authors()->detach($id);
+               $book->delete();
+
+           }else{
+               $book->authors()->detach($id);
+           }
+
+       }
+       $author->delete();
+
     }
 }

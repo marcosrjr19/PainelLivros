@@ -37,7 +37,7 @@
         <td>{{$company->name}}</td>
         <td><a href="{{route('publishingcompany.edit', ['id' => $company->id])}}"><button class="btn btn-warning"><i class="fa fa-fw fa-edit"></i></button></a></td>
         <td>
-            <form method="POST" action="{{route('publishingcompany.destroy', ['id' => $company->id])}}" onsubmit="return confirm('Deseja realmente remover este autor?');">
+            <form method="POST" action="{{route('publishingcompany.destroy', ['id' => $company->id])}}" onsubmit="return confirm('Deseja realmente remover essa editora? OBS : Todos os livros pertecentes à ela também serão removidos.');">
                 <input name="_method" type="hidden" value="DELETE">
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <button type="submit" class="btn btn-danger"><i class="fa fa-fw fa-trash"></i></button>

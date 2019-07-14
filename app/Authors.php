@@ -31,6 +31,6 @@ class Authors extends Model
      */
     public function books()
     {
-        return $this->belongsToMany('App\Books', 'books_has_authors');
+        return $this->belongsToMany('App\Books', 'books_has_authors', 'author_id', 'book_id')->withTimestamps();
     }
 }
