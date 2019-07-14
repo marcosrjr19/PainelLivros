@@ -3,10 +3,6 @@
 @section('content')
     <div class="container-fluid">
 
-        <div class="btn-group">
-                <a href="{{url('/admin/books')}}"> <button type="button" class="btn-block btn btn-info">Voltar</button></a>
-        </div>
-               
         @if(session()->has('message'))
             <div class="alert alert-success">
                 {{ session()->get('message') }}
@@ -22,40 +18,41 @@
                 </ul>
             </div>
         @endif
-            @if(empty($authors) && empty($publishingCompany))
-            <div class="text-center alert alert-warning" role="alert">
-                Adicione alguns Autores e Editoras antes de cadastrar um novo livro.
-            </div>
-        @elseif(empty($authors) && !empty($publishingCompany))
-            <div class="text-center alert alert-warning" role="alert">
-                Adicione algum Autor antes de adicionar um novo livro.
-            </div>
-        @elseif(!empty($authors) && empty($publishingCompany))
-            <div class="text-center alert alert-warning" role="alert">
-                Adicione alguma editora antes de adicionar um novo livro.
-            </div>
-        @else
-            <form enctype="multipart/form-data" method="POST" action="{{route('books.store')}}">
+
+        <div class="btn-group">
+                <a href="{{url('/admin/books')}}"> <button type="button" class="btn-block btn btn-info">Voltar</button></a>
+        </div>
+               
+       
+            <form enctype="multipart/form-data" method="POST" action="{{route('books.update', ['id' => $book->id])}}">
+                <input name="_method" type="hidden" value="PUT">
+
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                     <div class="form-group">
                         <label for="book_name">Nome do Livro</label>
-                        <input type="text" class="form-control" name="book_name" id="book_name" placeholder="Ex : Senhor dos Anéis">
+                        <input type="text" class="form-control" name="book_name" value="{{$book->name}}" id="book_name" placeholder="Ex : Senhor dos Anéis">
                     </div>
                     <div class="form-group">
                             <label for="page_count">Quantidade de Páginas</label>
-                            <input type="number" name="page_count" min="1" class="form-control" placeholder="Total de páginas do livro" id="page_count">
+                            <input type="number" name="page_count" min="1" class="form-control" value="{{$book->page_count}}" placeholder="Total de páginas do livro" id="page_count">
                         </div>
                     <div class="form-group">
                         <label for="publishing_company">Editora</label>
                         <select name="publishing_company" id="publishing_company" class="form-control">
+                        <option selected value="{{$book->publishingCompany->id}}">{{$book->publishingCompany->name}}</option>
+                    
                             @foreach ($publishingCompany as $company)
                                 <option value="{{$company->id}}">{{$company->name}}</option>
-                            @endforeach
+                           @endforeach
+
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="book-author">Autor(es)</label>   
                         <select class="form-control" id="book-authors" name="authors[]" multiple="multiple">
+                            @foreach ($book->authors as $author)
+                            <option selected value="{{$author->id}}">{{$author->author_name}}</option>
+                            @endforeach
                             @foreach ($authors as $author)
                                 <option value="{{$author->id}}">{{$author->author_name}}</option>
                             @endforeach
@@ -68,10 +65,13 @@
                                 A Imagem para o livro é opcional
                             </small>
                     </div>
+                    <div>
+                        @if(!empty($book->image_src))
+                        <img src="{{Storage::url($book->image_src)}}" class="img-fluid"/>
+                        @endif
+                    </div>
                     <button type="submit" class="btn btn-primary">Salvar</button>
             </form>
-                
-        @endif
     </div>
    
     <script>

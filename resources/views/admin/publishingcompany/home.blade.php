@@ -14,7 +14,7 @@
         <a href="{{url('/admin/dashboard')}}"> <button type="button" class="btn-block btn btn-info">Voltar</button></a>
         </div>
         <div class="col-xs-6 col-lg-2">
-        <a href="{{route('books.create')}}"><button type="button" class="btn-block btn btn-success">Adicionar Novo</button></a>
+        <a href="{{url('/admin/books/new')}}"><button type="button" class="btn-block btn btn-success">Adicionar Novo</button></a>
         </div>
       
           
@@ -44,15 +44,15 @@
             @foreach($book->authors as $author)
 
                 @if(!empty($author))
-                {{$author->author_name}}
+                {{$author->author_name}},
                 @else
                     No Results
-                @endif  
+                @endif
             @endforeach
         </td>
-        <td><a href="{{route('books.edit', ['id' => $book->id])}}"><button class="btn btn-warning"><i class="fa fa-fw fa-edit"></i></button></a></td>
+        <td><a href="{{url('/admin/books/edit/'.$book->id)}}"><button class="btn btn-warning"><i class="fa fa-fw fa-edit"></i></button></a></td>
         <td>
-            <form method="POST" action="{{route('books.destroy', ['id' => $book->id])}}" onsubmit="return confirm('Deseja realmente remover este livro?');">
+            <form method="POST" action="{{Request::url().'/'.$book->id}}" onsubmit="return confirm('Deseja realmente remover este livro?');">
                 <input name="_method" type="hidden" value="DELETE">
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <button type="submit" class="btn btn-danger"><i class="fa fa-fw fa-trash"></i></button>

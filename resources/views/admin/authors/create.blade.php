@@ -35,7 +35,7 @@
                 Adicione alguma editora antes de adicionar um novo livro.
             </div>
         @else
-            <form enctype="multipart/form-data" method="POST" action="{{route('books.store')}}">
+            <form enctype="multipart/form-data" method="POST" action="{{Request::url()}}">
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                     <div class="form-group">
                         <label for="book_name">Nome do Livro</label>

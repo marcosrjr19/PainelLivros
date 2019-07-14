@@ -20,7 +20,7 @@ class BooksController extends Controller
     public function index()
     {
 
-        return view('admin.books.home')->with('books' , Books::with('authors','publishingcompany')->get());
+        return view('admin.books.home')->with('books' , Books::with('authors','publishingcompany')->orderBy('id','ASC')->get());
     }
 
     /**
@@ -68,7 +68,10 @@ class BooksController extends Controller
        }
 
       
-       return redirect()->back()->with('message', 'Livro salvo com sucesso !');
+       return
+        redirect()
+       ->back()
+       ->with('message', 'Livro salvo com sucesso !');
       
     }
 
@@ -91,7 +94,15 @@ class BooksController extends Controller
      */
     public function edit($id)
     {
-        //
+        $book = Books::where('id', $id)->with('authors','publishingcompany')->firstOrFail();
+
+      
+        return 
+        view('admin.books.edit')
+        ->with('book', $book)
+        ->with('authors', Authors::whereNotIn('id', $book->authors->pluck('id'))->get())
+        ->with('publishingCompany', Publishingcompany::where('id', '!=', $book->publishing_company_id)->get());
+     
     }
 
     /**
@@ -101,9 +112,34 @@ class BooksController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(BookStoreRequest $request, $id)
     {
-        //
+        $book = Books::where('id', $id)->with('authors','publishingcompany')->firstOrFail();
+
+        $book->publishing_company_id = $request->input('publishing_company');
+        $book->name = $request->input('book_name');
+        $book->page_count = $request->input('page_count'); 
+        
+        if($request->has('book_img')){
+
+            $image = $request->file('book_img');
+            $name = uniqid('img_');
+            $folder = '/uploads/images/';
+            $filePath = $folder . $name. '.' . $image->getClientOriginalExtension();
+            $this->uploadOne($image, $folder, 'public', $name);
+            
+            $book->image_src = $filePath;
+        }
+
+
+        $book->save();
+        $book->authors()->sync($request->input('authors'));
+
+        return
+        redirect()
+       ->back()
+       ->with('message', 'Livro atualizado com sucesso !');
+
     }
 
     /**
@@ -114,6 +150,13 @@ class BooksController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $book = Books::where('id', $id)->with('authors','publishingcompany')->firstOrFail();
+        $book->authors()->sync([]);
+        $book->delete();
+
+        return
+        redirect()
+       ->back()
+       ->with('message', 'Livro removido com sucesso !');
     }
 }
