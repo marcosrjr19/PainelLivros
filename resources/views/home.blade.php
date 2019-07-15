@@ -32,12 +32,12 @@
           @if(!$banners->isEmpty())
             @foreach ($banners as $key => $banner)
               <div class="carousel-item {{$key == 0 ? 'active' : ''}}">
-                <img class="d-block img-fluid" src="{{asset($banner->image_src)}}" alt="First slide">
+                <img class="d-block ml-auto mr-auto img-fluid" src="{{asset($banner->image_src)}}" alt="First slide">
               </div>  
             @endforeach
           @else
           <div class="carousel-item active">
-              <img class="d-block img-fluid" src="{{asset('uploads/images/banners/default.png')}}" alt="First slide">
+              <img class="d-block ml-auto mr-auto img-fluid" src="{{asset('uploads/images/banners/default.png')}}" alt="First slide">
             </div>  
           @endif
           </div>
