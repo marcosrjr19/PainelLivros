@@ -4,9 +4,9 @@ O Projeto desenvolvido fornece ao usuário uma interface onde o mesmo conseguir�
 Existem alguns Painéis administrativos para utilização em Laravel, porém, acredito que não fosse o intuito dessa aplicação utilizar algo já pronto, fiz a utilização do pacote  jeroennoten/laravel-adminlte que apenas forneceram assets ( CSS, JS) para ficar com um visual mais conhecido já que o AdminLTE é um painel bastante utilizado.
 
 
-###Features
+### Features
 
-- **Acesso ao Painel ** :
+- **Acesso ao Painel** :
 	Ao realizar o Login usuários do tipo 'Manager' já serão redirecionados automaticamentes ao painel, porém, através da HomePage também consegue-se ter acesso ao mesmo :
 ![](https://i.ibb.co/njJHZ46/painel-acesso.png)
 
@@ -77,7 +77,7 @@ Visando a proteção das aplicações todas as requisições que necessitavam de
 
 A imgem acima demonstra a validação utilizada para o cadastro de Livros.
 
- **Modelos : ** 
+ **Modelos** :  
  A aplicação foi baseada na utilização de modelos do ELOQUENT ORM, garantindo uma estrutura orientada à objetos a um banco de dados relacional, que no caso foi o MySQL.
 
 <pre>
@@ -89,7 +89,7 @@ A imgem acima demonstra a validação utilizada para o cadastro de Livros.
 
 O trecho acima é a demonstração do relacionamento muitos para muitos, utilizandos para relacionar Livros x Autores que o Eloquent nos permite fazer.
 
-** Imagens: ** 
+ **Imagens**:  
 
 Fiz a utilização de um pacote chamado 'intervention/image' para a manipulação das imagens tanto na seção de Livros, quanto na sessão de Banners, onde se fazia necessàrio o redimensionamento dos itens fornecidos pelo usuário
 
