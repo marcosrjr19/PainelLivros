@@ -57,7 +57,7 @@ class BooksController extends Controller
             $filePath = $folder . $name. '.' . $image->getClientOriginalExtension();
             $image_src = 'uploads/images/books/'.$name. '.' . $image->getClientOriginalExtension();
             $image_resize = Image::make($image->getRealPath());
-            $image_resize->resize(250, 140);
+            $image_resize->resize(250, 360);
             $image_resize->save($filePath);
 
             $book->image_src = $image_src;
@@ -126,7 +126,7 @@ class BooksController extends Controller
             $filePath = $folder . $name. '.' . $image->getClientOriginalExtension();
             $image_src = 'uploads/images/books/'.$name. '.' . $image->getClientOriginalExtension();
             $image_resize = Image::make($image->getRealPath());
-            $image_resize->resize(300, 300);
+            $image_resize->resize(250, 360);
             $image_resize->save($filePath);
 
             $book->image_src = $image_src;

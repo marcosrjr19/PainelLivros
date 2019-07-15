@@ -1,8 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use RoleTableSeeder;
-use UserTableSeeder;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,5 +18,11 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleTableSeeder::class);
 
         $this->call(UserTableSeeder::class);
+
+        $this->call(PublishingCompanyTableSeeder::class);
+
+        $this->call(AuthorsTableSeeder::class);
+
+        $this->call(BooksTableSeeder::class);
     }
 }
