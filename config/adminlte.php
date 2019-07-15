@@ -110,27 +110,29 @@ return [
     'menu' => [
         'LIVROS',
         [
-            'text' => 'Blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
-        ],
-        [
             'text'        => 'Módulo de Livros',
             'url'         => 'admin/books',
             'icon'        => 'book',
         ],
-        'AUTORES',
         [
             'text' => 'Módulo de Autores',
             'url'  => 'admin/authors',
             'icon' => 'users',
         ],
-        'EDITORAS',
         [
             'text' => 'Módulo de Editoras',
             'url'  => 'admin/publishingcompany',
             
         ],
+        'USUÁRIOS',
+        [
+            'text' => 'Gerenciar Permissões',
+            'url'  => 'admin/users-roles',
+            'icon' => 'users',
+        ],
+
+        'BANNERS',
+
     ],
 
     /*

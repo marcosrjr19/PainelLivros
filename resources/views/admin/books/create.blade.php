@@ -22,15 +22,15 @@
                 </ul>
             </div>
         @endif
-            @if(empty($authors) && empty($publishingCompany))
+            @if($authors->isEmpty() && $publishingCompany->isEmpty())
             <div class="text-center alert alert-warning" role="alert">
                 Adicione alguns Autores e Editoras antes de cadastrar um novo livro.
             </div>
-        @elseif(empty($authors) && !empty($publishingCompany))
+        @elseif($authors->isEmpty() && !$publishingCompany->isEmpty())
             <div class="text-center alert alert-warning" role="alert">
                 Adicione algum Autor antes de adicionar um novo livro.
             </div>
-        @elseif(!empty($authors) && empty($publishingCompany))
+        @elseif(!$authors->isEmpty() && $publishingCompany->isEmpty())
             <div class="text-center alert alert-warning" role="alert">
                 Adicione alguma editora antes de adicionar um novo livro.
             </div>

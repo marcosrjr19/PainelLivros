@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Books;
+use Illuminate\Support\Facades\DB;
 
 
 class AdminController extends Controller
@@ -16,8 +18,24 @@ class AdminController extends Controller
      */
     public function index()
     {
+        $books_count_companies = DB::table('book')
+            ->join('publishing_company', 'book.publishing_company_id', '=', 'publishing_company.id')
+            ->select('publishing_company.id', 'publishing_company.name', DB::raw('count(publishing_company.id) as count_books'))
+            ->groupBy('publishing_company.id', 'publishing_company.name')
+            ->get()->toArray();
 
-        return view('admin.home');
+        $result = [
+            'name' => [],
+            'count_books' => [],
+        ];
+
+    
+        foreach ($books_count_companies as $books) {
+            $result['name'][] = $books->name;
+            $result['count_books'][] = $books->count_books;
+        }
+
+        return view('admin.home')->with('books_companies' , $result);
     }
 
     /**

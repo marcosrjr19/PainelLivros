@@ -51,7 +51,7 @@
 
     </div>
     <script>
-        window.onload = function(){
+        $(document).ready(function(){
             $("#authors-table").dataTable({
                 "lengthMenu" : false,
                 "lengthChange" : false,
@@ -62,6 +62,7 @@
             "infoFiltered": "(filtered from _MAX_ total records)"
         }
             });
-        }
+        });
+
     </script>
 @endsection

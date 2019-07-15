@@ -39,15 +39,10 @@
         <tr>
         <td>{{$book->name}}</td>
         <td>{{$book->page_count}}</td>
-        <td>{{$book->publishingCompany->name}}</td>   
+        <td>{{$book->publishingcompany->name}}</td>   
         <td>
-            @foreach($book->authors as $author)
-
-                @if(!empty($author))
+            @foreach($book->authors as $author)             
                 {{$author->author_name}}
-                @else
-                    No Results
-                @endif  
             @endforeach
         </td>
         <td><a href="{{route('books.edit', ['id' => $book->id])}}"><button class="btn btn-warning"><i class="fa fa-fw fa-edit"></i></button></a></td>
@@ -66,7 +61,7 @@
 
     </div>
     <script>
-        window.onload = function(){
+        $(document).ready(function(){
             $("#books-table").dataTable({
                 "lengthMenu" : false,
                 "lengthChange" : false,
@@ -77,6 +72,6 @@
             "infoFiltered": "(filtered from _MAX_ total records)"
         }
             });
-        }
+        });
     </script>
 @endsection

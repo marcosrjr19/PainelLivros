@@ -18,6 +18,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/', 'HomeController@index')->name('home');
+
 Route::get('/novoteste', function () {
     $book = Books::where('id', 16)->with('authors', 'publishingcompany')->get();
     var_dump($book);
@@ -54,18 +56,21 @@ Auth::routes();
   // var_dump($author->authorID);
 });*/
 
-Auth::routes();
+
 
 Route::group(['prefix' => 'admin',  'middleware' => ['role.verify', 'auth']], function () {
 
 
-    Route::get('/dashboard', 'AdminController@index');
+    Route::get('/dashboard', 'AdminController@index')->name('admin.dashboard');
 
     Route::resource('authors', 'AuthorsController');
 
     Route::resource('books', 'BooksController');
 
     Route::resource('publishingcompany', 'PublishingCompanyController');
+
+    Route::resource('users-roles', 'UsersRolesController');
+
 });
 
 /*Route::prefix('admin')->group(function () {

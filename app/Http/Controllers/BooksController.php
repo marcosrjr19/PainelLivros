@@ -7,11 +7,11 @@ use App\Books;
 use App\Publishingcompany;
 use App\Authors;
 use App\Http\Requests\BookStoreRequest;
-use App\Traits\UploadTrait;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class BooksController extends Controller
 {
-    use UploadTrait;
+
     /**
      * Display a listing of the resource.
      *
@@ -19,8 +19,7 @@ class BooksController extends Controller
      */
     public function index()
     {
-
-        return view('admin.books.home')->with('books' , Books::with('authors','publishingcompany')->orderBy('id','ASC')->get());
+        return view('admin.books.home')->with('books', Books::with('authors', 'publishingcompany')->orderBy('id', 'ASC')->get());
     }
 
     /**
@@ -30,8 +29,8 @@ class BooksController extends Controller
      */
     public function create()
     {
-        return 
-        view('admin.books.create')->with('authors', Authors::all())->with('publishingCompany', Publishingcompany::all());
+        return
+            view('admin.books.create')->with('authors', Authors::all())->with('publishingCompany', Publishingcompany::all());
     }
 
     /**
@@ -45,32 +44,34 @@ class BooksController extends Controller
 
         $request->validated();
 
-        $book = new Books(); 
+        $book = new Books();
         $book->publishing_company_id = $request->input('publishing_company');
         $book->name = $request->input('book_name');
-        $book->page_count = $request->input('page_count'); 
-        
-        if($request->has('book_img')){
+        $book->page_count = $request->input('page_count');
 
-            $image = $request->file('book_img');
+        if ($request->has('book_img')) {
+
+            $image       = $request->file('book_img');
             $name = uniqid('img_');
-            $folder = '/uploads/images/';
+            $folder = public_path('/uploads/images/books/');
             $filePath = $folder . $name. '.' . $image->getClientOriginalExtension();
-            $this->uploadOne($image, $folder, 'public', $name);
-            
-            $book->image_src = $filePath;
+            $image_src = 'uploads/images/books/'.$name. '.' . $image->getClientOriginalExtension();
+            $image_resize = Image::make($image->getRealPath());
+            $image_resize->resize(250, 140);
+            $image_resize->save($filePath);
+
+            $book->image_src = $image_src;
         }
-       $book->save(); 
+        $book->save();
 
-       $book->authors()->sync($request->input('authors'));
-    
+        $book->authors()->sync($request->input('authors'));
 
-      
-       return
-        redirect()
-       ->back()
-       ->with('message', 'Livro salvo com sucesso !');
-      
+
+
+        return
+            redirect()
+            ->back()
+            ->with('message', 'Livro salvo com sucesso !');
     }
 
     /**
@@ -92,15 +93,14 @@ class BooksController extends Controller
      */
     public function edit($id)
     {
-        $book = Books::where('id', $id)->with('authors','publishingcompany')->firstOrFail();
+        $book = Books::where('id', $id)->with('authors', 'publishingcompany')->firstOrFail();
 
-      
-        return 
-        view('admin.books.edit')
-        ->with('book', $book)
-        ->with('authors', Authors::whereNotIn('id', $book->authors->pluck('id'))->get())
-        ->with('publishingCompany', Publishingcompany::where('id', '!=', $book->publishing_company_id)->get());
-     
+
+        return
+            view('admin.books.edit')
+            ->with('book', $book)
+            ->with('authors', Authors::whereNotIn('id', $book->authors->pluck('id'))->get())
+            ->with('publishingCompany', Publishingcompany::where('id', '!=', $book->publishing_company_id)->get());
     }
 
     /**
@@ -112,21 +112,24 @@ class BooksController extends Controller
      */
     public function update(BookStoreRequest $request, $id)
     {
-        $book = Books::where('id', $id)->with('authors','publishingcompany')->firstOrFail();
+        $book = Books::where('id', $id)->with('authors', 'publishingcompany')->firstOrFail();
 
         $book->publishing_company_id = $request->input('publishing_company');
         $book->name = $request->input('book_name');
-        $book->page_count = $request->input('page_count'); 
-        
-        if($request->has('book_img')){
+        $book->page_count = $request->input('page_count');
 
-            $image = $request->file('book_img');
+        if ($request->has('book_img')) {
+
+            $image       = $request->file('book_img');
             $name = uniqid('img_');
-            $folder = '/uploads/images/';
+            $folder = public_path('/uploads/images/books/');
             $filePath = $folder . $name. '.' . $image->getClientOriginalExtension();
-            $this->uploadOne($image, $folder, 'public', $name);
-            
-            $book->image_src = $filePath;
+            $image_src = 'uploads/images/books/'.$name. '.' . $image->getClientOriginalExtension();
+            $image_resize = Image::make($image->getRealPath());
+            $image_resize->resize(300, 300);
+            $image_resize->save($filePath);
+
+            $book->image_src = $image_src;
         }
 
 
@@ -134,10 +137,9 @@ class BooksController extends Controller
         $book->authors()->sync($request->input('authors'));
 
         return
-        redirect()
-       ->back()
-       ->with('message', 'Livro atualizado com sucesso !');
-
+            redirect()
+            ->back()
+            ->with('message', 'Livro atualizado com sucesso !');
     }
 
     /**
@@ -148,13 +150,13 @@ class BooksController extends Controller
      */
     public function destroy($id)
     {
-        $book = Books::where('id', $id)->with('authors','publishingcompany')->firstOrFail();
+        $book = Books::where('id', $id)->with('authors', 'publishingcompany')->firstOrFail();
         $book->authors()->sync([]);
         $book->delete();
 
         return
-        redirect()
-       ->back()
-       ->with('message', 'Livro removido com sucesso !');
+            redirect()
+            ->back()
+            ->with('message', 'Livro removido com sucesso !');
     }
 }

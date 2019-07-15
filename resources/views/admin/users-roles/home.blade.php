@@ -14,35 +14,34 @@
         <a href="{{url('/admin/dashboard')}}"> <button type="button" class="btn-block btn btn-info">Voltar</button></a>
         </div>
         <div class="col-xs-6 col-lg-2">
-        <a href="{{route('publishingcompany.create')}}"><button type="button" class="btn-block btn btn-success">Adicionar Novo</button></a>
+        <a href="{{route('authors.create')}}"><button type="button" class="btn-block btn btn-success">Adicionar Novo</button></a>
         </div>
       
           
     </div>
    
 
-    <table id="publishing-table" class="table table-striped table-responsive-md btn-table">
+    <table id="users-table" class="table table-striped table-responsive-md btn-table">
         <thead>
         <tr>
             <th>Nome</th>
-            <th>Modificar</th>
-            <th>Remover</th>
-         
+            <th>Email</th>
+            <th>Permissões</th>
+            <th>Modificar</th>         
         </tr>
         </thead>
         <tbody>
           
-        @foreach ($publishingCompany as $company)
+        @foreach ($users as $user)
         <tr>
-        <td>{{$company->name}}</td>
-        <td><a href="{{route('publishingcompany.edit', ['id' => $company->id])}}"><button class="btn btn-warning"><i class="fa fa-fw fa-edit"></i></button></a></td>
+        <td>{{$user->name}}</td>
+        <td>{{$user->email}}</td>
         <td>
-            <form method="POST" action="{{route('publishingcompany.destroy', ['id' => $company->id])}}" onsubmit="return confirm('Deseja realmente remover essa editora? OBS : Todos os livros pertecentes à ela também serão removidos.');">
-                <input name="_method" type="hidden" value="DELETE">
-                <input type="hidden" name="_token" value="{{csrf_token()}}">
-                <button type="submit" class="btn btn-danger"><i class="fa fa-fw fa-trash"></i></button>
-            </form>
+            @foreach ($user->roles as $role)
+                {{$role->name}} 
+            @endforeach
         </td>
+        <td><a href="{{route('users-roles.edit', ['id' => $user->id])}}"><button class="btn btn-warning"><i class="fa fa-fw fa-edit"></i></button></a></td>
         </tr>        
         @endforeach
         </tbody>
@@ -52,7 +51,7 @@
     </div>
     <script>
         $(document).ready(function(){
-            $("#publishing-table").dataTable({
+            $("#users-table").dataTable({
                 "lengthMenu" : false,
                 "lengthChange" : false,
                 "language": {
@@ -63,5 +62,6 @@
         }
             });
         });
+
     </script>
 @endsection

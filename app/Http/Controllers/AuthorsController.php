@@ -118,6 +118,10 @@ class AuthorsController extends Controller
 
        }
        $author->delete();
+       return
+       redirect()
+       ->back()
+       ->with('message', 'Autor removido com sucesso !');
 
     }
 }

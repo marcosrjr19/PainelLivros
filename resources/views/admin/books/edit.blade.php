@@ -67,7 +67,7 @@
                     </div>
                     <div>
                         @if(!empty($book->image_src))
-                        <img src="{{Storage::url($book->image_src)}}" class="img-fluid"/>
+                        <img src="{{asset($book->image_src)}}" class="img-fluid"/>
                         @endif
                     </div>
                     <button type="submit" class="btn btn-primary">Salvar</button>
