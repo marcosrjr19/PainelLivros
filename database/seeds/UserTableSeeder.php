@@ -18,7 +18,7 @@ class UserTableSeeder extends Seeder
         $role_manager  = Role::where("name", "manager")->first();
 
         $employee = new User();
-        $employee->name = "Marcos Visualizador";
+        $employee->name = "Visualizador";
         $employee->email = "visualizador@example.com";
         $employee->password = bcrypt("secret");
         $employee->save();
@@ -26,7 +26,7 @@ class UserTableSeeder extends Seeder
 
 
         $manager = new User();
-        $manager->name = "Marcos Manager";
+        $manager->name = "Manager";
         $manager->email = "manager@example.com";
         $manager->password = bcrypt("secret");
         $manager->save();
