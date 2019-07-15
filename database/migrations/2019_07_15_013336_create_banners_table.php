@@ -13,8 +13,11 @@ class CreateBannersTable extends Migration
      */
     public function up()
     {
-        Schema::table('banners', function (Blueprint $table) {
-            //
+        Schema::create('banners', function (Blueprint $table) {
+            $table->increments("id");
+            $table->string("image_src");
+            $table->string("image_src_resized");
+            $table->timestamps();
         });
     }
 

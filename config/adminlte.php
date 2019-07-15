@@ -132,6 +132,11 @@ return [
         ],
 
         'BANNERS',
+        [
+            'text' => 'Gerenciar Banners',
+            'url'  => 'admin/banners',
+            'icon' => 'image',
+        ],
 
     ],
 

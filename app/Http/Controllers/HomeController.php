@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Books;
+use App\Banner;
 
 class HomeController extends Controller
 {
@@ -24,6 +25,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home')->with('books', Books::with('authors', 'publishingcompany')->orderBy('id', 'ASC')->get());
+        return view('home')
+        ->with('books', Books::with('authors', 'publishingcompany')->orderBy('id', 'ASC')->get())
+        ->with('banners', Banner::all());
     }
 }
