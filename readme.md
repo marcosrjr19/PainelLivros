@@ -58,7 +58,7 @@ Além de poder Gerenciar as Permissões de usuários já existentes com o intuit
 
 E o gerenciamento de Banners é apenas uma feature a mais para adicionar banners na visualização da home Page.
 
-- **Requisições de Formulários** :
+-**Requisições de Formulários** :
 Visando a proteção das aplicações todas as requisições que necessitavam de INSERT/UPDATE no banco de dados utilizaram as requests para fazer a validação do conteúdo da mesma, sendo assim, trazendo mais autenticidade e não permitindo a inserção de quaisquer itens.
 
 <pre>
